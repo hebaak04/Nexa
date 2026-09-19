@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Two-step Verification - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="two-step-container">
+
+        <!-- Header -->
+
+        <header class="two-step-header">
+
+            <button
+                class="two-step-back"
+                onclick="window.location.href='account.html'">
+                ←
+            </button>
+
+            <h1>Two-step verification</h1>
+
+        </header>
+
+
+        <!-- Content -->
+
+        <main class="two-step-content">
+
+
+            <!-- Icon -->
+
+            <div class="two-step-icon">
+                🛡
+            </div>
+
+
+            <h2>
+                Add extra security
+            </h2>
+
+
+            <p class="two-step-description">
+                Protect your Nexa account with an additional PIN.
+                You will need this PIN when registering your account
+                on a new device.
+            </p>
+
+
+            <!-- Status -->
+
+            <div class="two-step-status">
+
+                <div>
+
+                    <strong>
+                        Two-step verification
+                    </strong>
+
+                    <span>
+                        Add an extra layer of security
+                    </span>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="twoStepToggle"
+                        onchange="toggleTwoStep()">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Setup Section -->
+
+            <div
+                class="two-step-setup"
+                id="twoStepSetup">
+
+
+                <!-- PIN -->
+
+                <div class="two-step-field">
+
+                    <label for="twoStepPin">
+                        Create a PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="twoStepPin"
+                        maxlength="6"
+                        inputmode="numeric"
+                        placeholder="Enter 6-digit PIN">
+
+                </div>
+
+
+                <!-- Confirm PIN -->
+
+                <div class="two-step-field">
+
+                    <label for="confirmTwoStepPin">
+                        Confirm your PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmTwoStepPin"
+                        maxlength="6"
+                        inputmode="numeric"
+                        placeholder="Re-enter your PIN">
+
+                </div>
+
+
+                <!-- Recovery Email -->
+
+                <div class="two-step-field">
+
+                    <label for="recoveryEmail">
+                        Recovery email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="recoveryEmail"
+                        placeholder="Enter recovery email">
+
+                </div>
+
+
+                <p class="recovery-note">
+                    Your recovery email can help you regain access
+                    if you forget your PIN.
+                </p>
+
+
+                <!-- Enable -->
+
+                <button
+                    class="two-step-enable"
+                    onclick="enableTwoStep()">
+
+                    Enable
+
+                </button>
+
+            </div>
+
+
+            <!-- Enabled Section -->
+
+            <div
+                class="two-step-enabled"
+                id="twoStepEnabled">
+
+                <p>
+                    Your account is protected with
+                    two-step verification.
+                </p>
+
+                <button onclick="changeTwoStepPin()">
+                    Change PIN
+                </button>
+
+                <button onclick="changeRecoveryEmail()">
+                    Change recovery email
+                </button>
+
+                <button onclick="disableTwoStep()">
+                    Disable two-step verification
+                </button>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="profile-container">
+
+        <!-- =========================
+             Header
+        ========================== -->
+
+        <header class="profile-header">
+
+            <button
+                class="profile-back"
+                onclick="window.location.href='settings.html'">
+                ←
+            </button>
+
+            <h1>Profile</h1>
+
+        </header>
+
+
+        <!-- =========================
+             Profile
+        ========================== -->
+
+        <main class="profile-content">
+
+            <!-- Profile Image -->
+
+            <div class="profile-photo">
+
+            <span>📷</span>
+
+            <button class="photo-add">+</button>
+
+        </div>
+
+        
+
+
+
+            <!-- =========================
+                 Profile Fields
+            ========================== -->
+
+            <div class="profile-fields">
+
+
+                <!-- Name -->
+
+                <div class="profile-field">
+
+                    <label>Name</label>
+
+                    <input
+                        type="text"
+                        id="nameInput"
+                        value="Heba Al-Akhras">
+
+                </div>
+
+
+                <!-- Username -->
+
+                <div class="profile-field">
+
+                    <label>Username</label>
+
+                    <input
+                        type="text"
+                        id="usernameInput"
+                        value="heba.a">
+
+                </div>
+
+
+                <!-- Phone Number -->
+
+                <div class="profile-field">
+
+                    <label>Phone number</label>
+
+                    <input
+                        type="text"
+                        id="phoneInput"
+                        value="+962 7 9123 4567"
+                        readonly>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="profile-field">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        id="emailInput"
+                        value="heba@example.com">
+
+                </div>
+
+
+                <!-- About -->
+
+                <div class="profile-field">
+
+                    <label>About</label>
+
+                    <input
+                        type="text"
+                        id="aboutInput"
+                        value="Good things take time ✨">
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 Save Changes
+            ========================== -->
+
+            <button
+                class="profile-save"
+                onclick="saveProfileChanges()">
+
+                Save Changes
+
+            </button>
+
+
+            <!-- =========================
+                 Log Out
+            ========================== -->
+
+            <button
+                class="profile-logout"
+                onclick="logout()">
+
+                Log out
+
+            </button>
+
+
+        </main>
+
+
+        <!-- =========================
+             Bottom Navigation
+        ========================== -->
+
+        <nav class="bottom-nav">
+
+            <button
+                class="nav-item"
+                onclick="window.location.href='home.html'">
+
+                <span class="nav-icon">▱</span>
+
+                <span>Chats</span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="window.location.href='calls.html'">
+
+                <span class="nav-icon">☎</span>
+
+                <span>Calls</span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="window.location.href='status.html'">
+
+                <span class="nav-icon">◉</span>
+
+                <span>Status</span>
+
+            </button>
+
+
+            <button
+                class="nav-item active"
+                onclick="window.location.href='settings.html'">
+
+                <span class="nav-icon">⚙</span>
+
+                <span>Settings</span>
+
+            </button>
+
+        </nav>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

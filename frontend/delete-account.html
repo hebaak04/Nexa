@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Account - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="delete-account-container">
+
+        <!-- Header -->
+
+        <header class="delete-account-header">
+
+            <button
+                class="delete-account-back"
+                onclick="window.location.href='account.html'">
+                ←
+            </button>
+
+            <h1>Delete account</h1>
+
+        </header>
+
+
+        <!-- Content -->
+
+        <main class="delete-account-content">
+
+            <div class="delete-warning-icon">
+                ⚠
+            </div>
+
+
+            <h2>
+                Delete your account permanently?
+            </h2>
+
+
+            <p class="delete-description">
+                Deleting your account is permanent and cannot be undone.
+            </p>
+
+
+            <!-- What happens -->
+
+            <div class="delete-info">
+
+                <h3>
+                    What happens when you delete your account?
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Your Nexa account will be permanently deleted.
+                    </li>
+
+                    <li>
+                        Your profile information will be removed.
+                    </li>
+
+                    <li>
+                        Your conversations and account data will be deleted.
+                    </li>
+
+                    <li>
+                        You will no longer be able to access this account.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="delete-password-field">
+
+                <label for="deletePassword">
+                    Enter your password
+                </label>
+
+                <input
+                    type="password"
+                    id="deletePassword"
+                    placeholder="Enter your password">
+
+            </div>
+
+
+            <!-- Confirmation -->
+
+            <label class="delete-confirm">
+
+                <input
+                    type="checkbox"
+                    id="deleteConfirm">
+
+                <span>
+                    I understand that this action cannot be undone.
+                </span>
+
+            </label>
+
+
+            <!-- Delete Button -->
+
+            <button
+                class="delete-account-button"
+                onclick="deleteAccount()">
+
+                Delete my account
+
+            </button>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

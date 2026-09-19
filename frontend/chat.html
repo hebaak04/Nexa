@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nexa - Chat</title>
+
+    <!-- نفس ملف الـ CSS الموجود عندك -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <!-- =========================
+             Chat Header
+        ========================== -->
+
+        <header class="chat-header">
+
+            <!-- Back -->
+            <button class="back-chat" onclick="history.back()">
+                ←
+            </button>
+
+            <!-- User -->
+            <div class="chat-user">
+
+                <div class="chat-avatar">
+                </div>
+
+                <div class="chat-user-info">
+
+<h3 id="chatName">User</h3>
+                    <span>Online</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="chat-actions">
+
+                <button class="chat-action">
+                    ☎
+                </button>
+
+                <button class="chat-action">
+                    ▣
+                </button>
+
+                <button class="chat-action">
+                    ⋮
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             Messages
+        ========================== -->
+
+        <main class="messages-area">
+
+            <div class="today-label">
+                Today
+            </div>
+
+            <!-- الرسائل رح نضيفها لاحقًا -->
+
+        </main>
+
+
+        <!-- =========================
+             Message Input
+        ========================== -->
+
+        <footer class="message-area">
+
+            <!-- Plus -->
+            <button class="add-button">
+                +
+            </button>
+
+
+            <!-- Input -->
+            <div class="message-input-container">
+
+                <input
+                    type="text"
+                    placeholder="Type a message..."
+                >
+
+                <button class="emoji-button">
+                    ☺
+                </button>
+
+                <button class="attachment-button">
+                    📎
+                </button>
+
+            </div>
+
+
+            <!-- Send -->
+            <button class="send-button">
+                ➤
+            </button>
+
+        </footer>
+
+    </div>
+   <script>
+
+    const chatUser = localStorage.getItem("chatUser");
+
+    if (chatUser) {
+        document.getElementById("chatName").textContent = chatUser;
+    }
+
+</script>
+
+</body>
+</html>

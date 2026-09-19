@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report a problem - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="report-container">
+
+        <!-- Header -->
+        <header class="report-header">
+
+            <button
+                class="report-back"
+                onclick="window.location.href='help.html'">
+                ←
+            </button>
+
+            <h1>Report a problem</h1>
+
+        </header>
+
+
+        <!-- Introduction -->
+        <div class="report-intro">
+
+            <p>Tell us what went wrong.</p>
+
+        </div>
+
+
+        <!-- Report Form -->
+        <main class="report-form">
+
+            <!-- Issue Type -->
+            <label class="report-label">
+                Issue type
+            </label>
+
+            <select class="report-select">
+
+                <option value="" selected disabled>
+                    Select an issue
+                </option>
+
+                <option>
+                    App is not working
+                </option>
+
+                <option>
+                    Chat problem
+                </option>
+
+                <option>
+                    Call problem
+                </option>
+
+                <option>
+                    Account problem
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+
+            <!-- Description -->
+            <label class="report-label">
+                Description
+            </label>
+
+            <textarea
+                class="report-description"
+                placeholder="Describe the problem..."></textarea>
+
+
+            <!-- Submit -->
+            <button
+                class="report-submit"
+                type="button">
+
+                Submit
+
+            </button>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

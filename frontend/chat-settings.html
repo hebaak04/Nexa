@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat Settings - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="chat-settings-container">
+
+        <!-- Header -->
+
+        <header class="chat-settings-header">
+
+            <button
+                class="chat-settings-back"
+                onclick="window.location.href='settings.html'">
+                ←
+            </button>
+
+            <div>
+                <h1>Chat Settings</h1>
+
+                <p>
+                    Customize your chat experience.
+                </p>
+            </div>
+
+        </header>
+
+
+        <!-- Settings -->
+
+        <main class="chat-settings-list">
+
+
+            <!-- Theme -->
+
+            <button
+                class="chat-setting-item"
+                onclick="openThemeOptions()">
+
+                <div class="chat-setting-icon">
+                    ◐
+                </div>
+
+                <div class="chat-setting-text">
+
+                    <span class="chat-setting-title">
+                        Theme
+                    </span>
+
+                    <span class="chat-setting-subtitle">
+                        Light / Dark / System
+                    </span>
+
+                </div>
+
+                <span
+                    class="chat-setting-value"
+                    id="themeValue">
+                    System
+                </span>
+
+                <span class="chat-setting-arrow">
+                    ›
+                </span>
+
+            </button>
+
+
+            <!-- Font Size -->
+
+            <button
+                class="chat-setting-item"
+                onclick="openFontOptions()">
+
+                <div class="chat-setting-icon">
+                    Aa
+                </div>
+
+                <div class="chat-setting-text">
+
+                    <span class="chat-setting-title">
+                        Font size
+                    </span>
+
+                    <span class="chat-setting-subtitle">
+                        Adjust the text size in chats
+                    </span>
+
+                </div>
+
+                <span
+                    class="chat-setting-value"
+                    id="fontValue">
+                    Medium
+                </span>
+
+                <span class="chat-setting-arrow">
+                    ›
+                </span>
+
+            </button>
+
+
+            <!-- Enter Key -->
+
+            <div class="chat-setting-item">
+
+                <div class="chat-setting-icon">
+                    ↵
+                </div>
+
+                <div class="chat-setting-text">
+
+                    <span class="chat-setting-title">
+                        Enter key sends message
+                    </span>
+
+                    <span class="chat-setting-subtitle">
+                        Send messages by pressing Enter
+                    </span>
+
+                </div>
+
+                <label class="chat-switch">
+
+                    <input
+                        type="checkbox"
+                        id="enterKeyToggle"
+                        checked
+                        onchange="toggleEnterKey()">
+
+                    <span class="chat-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Media Auto Download -->
+
+            <button
+                class="chat-setting-item"
+                onclick="openMediaOptions()">
+
+                <div class="chat-setting-icon">
+                    ↓
+                </div>
+
+                <div class="chat-setting-text">
+
+                    <span class="chat-setting-title">
+                        Media auto-download
+                    </span>
+
+                    <span class="chat-setting-subtitle">
+                        Manage automatic media downloads
+                    </span>
+
+                </div>
+
+                <span class="chat-setting-arrow">
+                    ›
+                </span>
+
+            </button>
+
+
+            <!-- Chat Backup -->
+
+            <button
+                class="chat-setting-item"
+                onclick="backupChats()">
+
+                <div class="chat-setting-icon">
+                    ☁
+                </div>
+
+                <div class="chat-setting-text">
+
+                    <span class="chat-setting-title">
+                        Chat backup
+                    </span>
+
+                    <span class="chat-setting-subtitle">
+                        Back up your chat history
+                    </span>
+
+                </div>
+
+                <span class="chat-setting-arrow">
+                    ›
+                </span>
+
+            </button>
+
+
+            <!-- Privacy Information -->
+
+            <div class="chat-privacy-box">
+
+                <div class="chat-privacy-icon">
+                    🛡
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your conversations matter.
+                    </strong>
+
+                    <p>
+                        Nexa keeps your chats private and secure.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <!-- Theme Popup -->
+
+        <div
+            class="chat-popup-overlay"
+            id="themePopup"
+            onclick="closePopupOutside(event, 'themePopup')">
+
+            <div class="chat-popup">
+
+                <h3>Theme</h3>
+
+                <button onclick="selectTheme('Light')">
+                    Light
+                </button>
+
+                <button onclick="selectTheme('Dark')">
+                    Dark
+                </button>
+
+                <button onclick="selectTheme('System')">
+                    System
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Font Popup -->
+
+        <div
+            class="chat-popup-overlay"
+            id="fontPopup"
+            onclick="closePopupOutside(event, 'fontPopup')">
+
+            <div class="chat-popup">
+
+                <h3>Font size</h3>
+
+                <button onclick="selectFontSize('Small')">
+                    Small
+                </button>
+
+                <button onclick="selectFontSize('Medium')">
+                    Medium
+                </button>
+
+                <button onclick="selectFontSize('Large')">
+                    Large
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Media Popup -->
+
+        <div
+            class="chat-popup-overlay"
+            id="mediaPopup"
+            onclick="closePopupOutside(event, 'mediaPopup')">
+
+            <div class="chat-popup media-popup">
+
+                <h3>Media auto-download</h3>
+
+
+                <div class="media-option">
+
+                    <span>Photos</span>
+
+                    <label class="chat-switch">
+
+                        <input
+                            type="checkbox"
+                            id="photosToggle"
+                            checked>
+
+                        <span class="chat-slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="media-option">
+
+                    <span>Videos</span>
+
+                    <label class="chat-switch">
+
+                        <input
+                            type="checkbox"
+                            id="videosToggle"
+                            checked>
+
+                        <span class="chat-slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="media-option">
+
+                    <span>Documents</span>
+
+                    <label class="chat-switch">
+
+                        <input
+                            type="checkbox"
+                            id="documentsToggle">
+
+                        <span class="chat-slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="media-option">
+
+                    <span>Audio</span>
+
+                    <label class="chat-switch">
+
+                        <input
+                            type="checkbox"
+                            id="audioToggle"
+                            checked>
+
+                        <span class="chat-slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <button
+                    class="popup-done"
+                    onclick="closePopup('mediaPopup')">
+
+                    Done
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

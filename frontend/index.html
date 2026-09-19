@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nexa - Sign In</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Nexa Logo -->
+        <div class="logo">
+            <span>N</span>exa
+        </div>
+
+        <!-- Phone Number -->
+        <div class="input-box">
+            <span class="icon">☎</span>
+
+            <input 
+                type="tel" 
+                id="phone"
+                placeholder="Phone number"
+            >
+        </div>
+
+        <!-- Password -->
+        <div class="input-box">
+            <span class="icon">🔒</span>
+
+            <input 
+                type="password"
+                id="password"
+                placeholder="Password"
+            >
+
+            <button 
+                type="button"
+                class="show-password"
+                onclick="togglePassword()">
+                ◉
+            </button>
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="forgot-password">
+<a href="forgot-password.html">Forgot password?</a>        </div>
+
+        <!-- Sign In -->
+        <button class="signin-button" onclick="signIn()">
+            <span>Sign in</span>
+            <span class="arrow">→</span>
+        </button>
+
+        <!-- OR -->
+        <div class="or-container">
+            <div class="line"></div>
+            <span>OR</span>
+            <div class="line"></div>
+        </div>
+
+        <!-- Create Account -->
+        <div class="create-account">
+    Don't have an account?
+    <a href="register.html">Create</a>
+</div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>N E X A</div>
+            <p>PEOPLE&nbsp;&nbsp;•&nbsp;&nbsp;PRIVACY&nbsp;&nbsp;•&nbsp;&nbsp;SAFETY</p>
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>

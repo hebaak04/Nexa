@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Verify Email - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <div class="verify-email-container">
+
+
+        <!-- Back -->
+
+        <button
+            class="verify-back"
+            onclick="window.location.href='profile.html'">
+
+            ←
+
+        </button>
+
+
+        <!-- Content -->
+
+        <main class="verify-email-content">
+
+            <div class="verify-icon">
+                @
+            </div>
+
+
+            <h1>
+                Verify your email
+            </h1>
+
+
+            <p>
+                We sent a verification code to
+            </p>
+
+
+            <strong id="verifyEmail">
+                your email
+            </strong>
+
+
+            <!-- Code -->
+
+            <div class="verification-code">
+
+    <input type="text" maxlength="1" inputmode="numeric">
+    <input type="text" maxlength="1" inputmode="numeric">
+    <input type="text" maxlength="1" inputmode="numeric">
+    <input type="text" maxlength="1" inputmode="numeric">
+    <input type="text" maxlength="1" inputmode="numeric">
+    <input type="text" maxlength="1" inputmode="numeric">
+
+</div>
+
+            <button
+                class="verify-button"
+                onclick="verifyEmailCode()">
+
+                Verify Email
+
+            </button>
+
+
+            <button
+                class="resend-code"
+                onclick="resendCode()">
+
+                Resend code
+
+            </button>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

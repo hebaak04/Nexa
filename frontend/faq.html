@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FAQ - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="faq-container">
+
+        <!-- Header -->
+        <header class="faq-header">
+
+            <button
+                class="faq-back"
+                onclick="window.location.href='help.html'">
+                ←
+            </button>
+
+            <h1>FAQ</h1>
+
+        </header>
+
+
+       
+
+
+        <!-- Questions -->
+        <main class="faq-list">
+
+
+            <!-- Question 1 -->
+            <div class="faq-item">
+
+                <button class="faq-question" onclick="toggleFAQ(this)">
+
+                    <span>What is Nexa?</span>
+
+                    <span class="faq-arrow">⌄</span>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    Nexa is a safer digital communication platform that uses
+                    AI to detect potential online threats and help users stay safe.
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 2 -->
+            <div class="faq-item">
+
+                <button class="faq-question" onclick="toggleFAQ(this)">
+
+                    <span>How does Nexa detect threats?</span>
+
+                    <span class="faq-arrow">⌄</span>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    Nexa uses an AI-powered NLP system to analyze messages
+                    and identify potential threats such as blackmail,
+                    grooming, threats, and harassment.
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 3 -->
+            <div class="faq-item">
+
+                <button class="faq-question" onclick="toggleFAQ(this)">
+
+                    <span>Is my data private?</span>
+
+                    <span class="faq-arrow">⌄</span>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    Yes. Nexa is designed to protect user privacy.
+                    Messages are analyzed for security purposes,
+                    and user data is handled securely.
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 4 -->
+            <div class="faq-item">
+
+                <button class="faq-question" onclick="toggleFAQ(this)">
+
+                    <span>Who can see my messages?</span>
+
+                    <span class="faq-arrow">⌄</span>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    Your private messages cannot be seen by other users.
+                    Nexa analyzes messages to detect potential security threats,
+                    but it does not give anyone direct access to your conversations.
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 5 -->
+            <div class="faq-item">
+
+                <button class="faq-question" onclick="toggleFAQ(this)">
+
+                    <span>What should I do if I feel unsafe?</span>
+
+                    <span class="faq-arrow">⌄</span>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    If you feel unsafe, stop communicating with the person,
+                    avoid sharing personal information, and use Nexa's
+                    reporting and safety features to get help.
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 6 -->
+            <div class="faq-item">
+
+                <button class="faq-question" onclick="toggleFAQ(this)">
+
+                    <span>How do I report a user?</span>
+
+                    <span class="faq-arrow">⌄</span>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    Open the user's profile, select the report option,
+                    choose the reason for your report, and submit it.
+                    Nexa will handle the report according to its safety procedures.
+
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        function toggleFAQ(button) {
+
+            const item = button.parentElement;
+
+            item.classList.toggle("open");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

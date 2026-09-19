@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nexa - Verify Phone</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="verify-container">
+
+        <!-- Back Button -->
+        <a href="forgot-password.html" class="back-button">←</a>
+
+        <!-- Icon -->
+        <div class="verify-icon">
+            💬
+        </div>
+
+        <!-- Title -->
+        <h1>Verify your phone number</h1>
+
+        <p class="verify-text">
+            We've sent a 6-digit code to
+        </p>
+
+        <p class="verify-number">
+            +962 7 9123 4567
+        </p>
+
+        <!-- OTP -->
+        <div class="otp-container">
+
+            <input type="text" maxlength="1" inputmode="numeric">
+            <input type="text" maxlength="1" inputmode="numeric">
+            <input type="text" maxlength="1" inputmode="numeric">
+            <input type="text" maxlength="1" inputmode="numeric">
+            <input type="text" maxlength="1" inputmode="numeric">
+            <input type="text" maxlength="1" inputmode="numeric">
+
+        </div>
+
+        <!-- Verify -->
+        <button class="verify-button" onclick="verifyForgotCode()">
+
+            <span>Verify</span>
+
+            <span>→</span>
+
+        </button>
+
+        <!-- Resend -->
+        <p class="resend-text">
+            Didn't receive the code?
+        </p>
+
+        <button class="resend-button" onclick="resendCode()">
+            Resend in 00:28
+        </button>
+
+        <!-- Footer -->
+        <div class="register-footer">
+
+            <div>N E X A</div>
+
+            <p>
+                P E O P L E&nbsp;&nbsp;•&nbsp;&nbsp;
+                P R I V A C Y&nbsp;&nbsp;•&nbsp;&nbsp;
+                S A F E T Y
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

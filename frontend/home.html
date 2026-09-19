@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nexa - Home</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="home-container">
+
+        <!-- =========================
+             Top Header
+        ========================== -->
+
+        <header class="home-header">
+
+            <div class="home-logo">
+                <span>N</span>exa
+            </div>
+
+            <div class="header-actions">
+
+                <!-- Search -->
+                <button
+    type="button"
+    class="home-action"
+    onclick="openChatSearch()">
+    ⌕
+</button>
+
+                <!-- New Chat -->
+<button class="header-button"
+        onclick="window.location.href='new-chat.html'">
+    +
+</button>
+
+                <div class="more-menu-container">
+
+    <button class="header-button" onclick="toggleMoreMenu()">
+        ⋮
+    </button>
+
+    <div class="more-menu" id="moreMenu">
+
+        <button class="more-menu-item"
+                onclick="window.location.href='new-group.html'">
+            <span>+</span>
+            <span>New group</span>
+        </button>
+
+        <button class="more-menu-item">
+            <span>☆</span>
+            <span>Starred messages</span>
+        </button>
+
+        <button class="more-menu-item">
+            <span>☑</span>
+            <span>Select chats</span>
+        </button>
+
+        <button class="more-menu-item">
+            <span>▤</span>
+            <span>Mark all as read</span>
+        </button>
+
+        <div class="menu-divider"></div>
+
+        <button class="more-menu-item"
+        onclick="window.location.href='index.html'">
+
+    <span>↪</span>
+    <span>Log out</span>
+
+</button>
+
+    </div>
+
+</div>
+
+            </div>
+
+        </header>
+
+<div class="chat-filters">
+
+    <button class="filter active" onclick="showFilter('all', this)">
+        All
+    </button>
+
+    <button class="filter" onclick="showFilter('unread', this)">
+        Unread
+    </button>
+
+    <button class="filter" onclick="showFilter('groups', this)">
+        Groups
+    </button>
+    
+
+</div>
+<div class="chat-search" id="chatSearch">
+
+    <input
+        type="text"
+        id="chatSearchInput"
+        placeholder="Search chats..."
+        oninput="searchChats()">
+
+    <button onclick="closeChatSearch()">×</button>
+
+</div>
+
+        <!-- =========================
+             Empty Chats
+        ========================== -->
+
+        <main class="empty-chats">
+
+            <div class="empty-icon">
+                💬
+            </div>
+
+            <h2>No conversations yet</h2>
+
+            <p>
+                Start a conversation with someone.
+            </p>
+
+            <button class="start-chat" onclick="window.location.href='new-chat.html'">
+    Start a new chat
+</button>
+
+        </main>
+
+
+        <!-- =========================
+             Bottom Navigation
+        ========================== -->
+
+        <nav class="bottom-nav">
+
+            <button class="nav-item active">
+
+                <span class="nav-icon">▰</span>
+
+                <span>Chats</span>
+
+            </button>
+
+
+            <button
+    class="nav-item"
+    onclick="window.location.href='calls.html'">
+
+    <span class="nav-icon">☎</span>
+
+    <span>Calls</span>
+
+</button>
+
+
+            <button class="nav-item" onclick="window.location.href='status.html'">
+    <span class="nav-icon">◉</span>
+    <span>Status</span>
+</button>
+
+
+            <button class="nav-item" onclick="window.location.href='settings.html'">
+    <span class="nav-icon">⚙</span>
+    <span>Settings</span>
+</button>
+
+        </nav>
+
+    </div>
+
+
+    <script src="script.js"></script>
+    <script>
+
+function showFilter(type, button) {
+
+    // إزالة التحديد عن كل الأزرار
+    document.querySelectorAll('.filter').forEach(function(filter) {
+        filter.classList.remove('active');
+    });
+
+    // تحديد الزر الذي تم الضغط عليه
+    button.classList.add('active');
+
+}
+
+</script>
+
+</body>
+
+</html>

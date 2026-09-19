@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nexa - Create Account</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="account-container">
+
+        <!-- Header -->
+        <div class="account-header">
+
+            <a href="verify.html" class="back-button">←</a>
+
+            
+
+        </div>
+
+
+        <!-- Logo -->
+        <div class="account-logo">
+            <span>N</span>exa
+        </div>
+
+
+        <!-- Title -->
+        <h1>Create your account</h1>
+
+        <p class="account-subtitle">
+            Join Nexa and be part of a safer online community.
+        </p>
+
+
+        <!-- Profile Photo -->
+        <div class="profile-photo">
+
+            <span>📷</span>
+
+            <button class="photo-add">+</button>
+
+        </div>
+
+        <p class="photo-text">
+            Add profile photo
+        </p>
+
+
+        <!-- Full Name -->
+        <div class="account-input">
+
+            <span class="input-icon">♙</span>
+
+            <input
+                type="text"
+                id="full-name"
+                placeholder="Full name"
+            >
+
+        </div>
+
+
+        <!-- Username -->
+        <div class="account-input">
+
+            <span class="input-icon">@</span>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+            >
+
+        </div>
+
+        <p class="input-hint">
+            This will be your unique username.
+        </p>
+
+
+        <!-- Email -->
+        <div class="account-input">
+
+            <span class="input-icon">✉</span>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email address"
+            >
+
+        </div>
+
+
+        <!-- Phone -->
+        <div class="account-input">
+
+            <span class="input-icon">☎</span>
+
+            <input
+                type="tel"
+                id="account-phone"
+                placeholder="Phone number"
+            >
+
+            <span class="country-code-small">+962⌄</span>
+
+        </div>
+
+
+        <!-- Password -->
+        <div class="account-input">
+
+            <span class="input-icon">🔒</span>
+
+            <input
+                type="password"
+                id="account-password"
+                placeholder="Password"
+            >
+
+            <button
+                type="button"
+                class="password-toggle"
+                onclick="toggleAccountPassword('account-password')">
+                ◉
+            </button>
+
+        </div>
+
+
+        <!-- Confirm Password -->
+        <div class="account-input">
+
+            <span class="input-icon">🔒</span>
+
+            <input
+                type="password"
+                id="confirm-password"
+                placeholder="Confirm password"
+            >
+
+            <button
+                type="button"
+                class="password-toggle"
+                onclick="toggleAccountPassword('confirm-password')">
+                ◉
+            </button>
+
+        </div>
+
+
+        <!-- Terms -->
+        <div class="terms">
+
+            <input type="checkbox" id="terms">
+
+            <label for="terms">
+                I agree to the
+                <a href="#">Terms of Service</a>
+                and
+                <a href="#">Privacy Policy</a>.
+            </label>
+
+        </div>
+
+
+        <!-- Create Account -->
+        <button
+            class="create-button"
+            onclick="createAccount()">
+
+            <span>Create account</span>
+
+            <span>→</span>
+
+        </button>
+
+
+      
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="notifications-container">
+
+        <!-- Header -->
+
+        <header class="notifications-header">
+
+            <button
+                class="notifications-back"
+                onclick="window.location.href='settings.html'">
+                ←
+            </button>
+
+            <div>
+                <h1>Notifications</h1>
+
+                <p>
+                    Stay updated and in control.
+                </p>
+            </div>
+
+        </header>
+
+
+        <main class="notifications-list">
+
+
+            <!-- Message Notifications -->
+
+            <div class="notification-item">
+
+                <div class="notification-icon">
+                    ▣
+                </div>
+
+                <div class="notification-text">
+
+                    <span class="notification-title">
+                        Message notifications
+                    </span>
+
+                    <span class="notification-subtitle">
+                        Get notified about new messages
+                    </span>
+
+                </div>
+
+                <label class="notification-switch">
+
+                    <input
+                        type="checkbox"
+                        id="messageNotifications"
+                        checked
+                        onchange="saveNotificationSetting('messageNotifications')">
+
+                    <span class="notification-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Group Notifications -->
+
+            <div class="notification-item">
+
+                <div class="notification-icon">
+                    ●●●
+                </div>
+
+                <div class="notification-text">
+
+                    <span class="notification-title">
+                        Group notifications
+                    </span>
+
+                    <span class="notification-subtitle">
+                        Get notified about new group messages
+                    </span>
+
+                </div>
+
+                <label class="notification-switch">
+
+                    <input
+                        type="checkbox"
+                        id="groupNotifications"
+                        checked
+                        onchange="saveNotificationSetting('groupNotifications')">
+
+                    <span class="notification-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Notification Sound -->
+
+            <button
+                class="notification-item notification-button"
+                onclick="openNotificationSound()">
+
+                <div class="notification-icon">
+                    ♪
+                </div>
+
+                <div class="notification-text">
+
+                    <span class="notification-title">
+                        Notification sound
+                    </span>
+
+                    <span
+                        class="notification-subtitle"
+                        id="notificationSoundValue">
+                        Nexa (Default)
+                    </span>
+
+                </div>
+
+                <span class="notification-arrow">
+                    ›
+                </span>
+
+            </button>
+
+
+            <!-- Vibration -->
+
+            <div class="notification-item">
+
+                <div class="notification-icon">
+                    ♫
+                </div>
+
+                <div class="notification-text">
+
+                    <span class="notification-title">
+                        Vibration
+                    </span>
+
+                    <span class="notification-subtitle">
+                        Vibrate for notifications
+                    </span>
+
+                </div>
+
+                <label class="notification-switch">
+
+                    <input
+                        type="checkbox"
+                        id="vibrationNotifications"
+                        checked
+                        onchange="saveNotificationSetting('vibrationNotifications')">
+
+                    <span class="notification-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Safety Alerts -->
+
+            <div class="notification-item safety-notification">
+
+                <div class="notification-icon safety-icon">
+                    🛡
+                </div>
+
+                <div class="notification-text">
+
+                    <span class="notification-title">
+                        Safety alerts
+                    </span>
+
+                    <span class="notification-subtitle">
+                        Get notified about important safety updates and tips from Nexa
+                    </span>
+
+                </div>
+
+                <label class="notification-switch">
+
+                    <input
+                        type="checkbox"
+                        id="safetyAlerts"
+                        checked
+                        onchange="saveNotificationSetting('safetyAlerts')">
+
+                    <span class="notification-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Threat Detection Alerts -->
+
+            <div class="notification-item safety-notification">
+
+                <div class="notification-icon threat-icon">
+                    !
+                </div>
+
+                <div class="notification-text">
+
+                    <span class="notification-title">
+                        Threat detection alerts
+                    </span>
+
+                    <span class="notification-subtitle">
+                        Get notified when a potential risk is detected in your conversations
+                    </span>
+
+                </div>
+
+                <label class="notification-switch">
+
+                    <input
+                        type="checkbox"
+                        id="threatAlerts"
+                        checked
+                        onchange="saveNotificationSetting('threatAlerts')">
+
+                    <span class="notification-slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Safety Message -->
+
+            <div class="notification-info">
+
+                <div class="notification-info-icon">
+                    i
+                </div>
+
+                <div>
+
+                    <strong>
+                        Nexa is here to keep you safe.
+                    </strong>
+
+                    <p>
+                        You'll always be informed about what matters.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <!-- Notification Sound Popup -->
+
+        <div
+            class="notification-popup-overlay"
+            id="notificationSoundPopup"
+            onclick="closeNotificationPopup(event)">
+
+            <div class="notification-popup">
+
+                <h3>
+                    Notification sound
+                </h3>
+
+                <button onclick="selectNotificationSound('Nexa (Default)')">
+                    Nexa (Default)
+                </button>
+
+                <button onclick="selectNotificationSound('Soft')">
+                    Soft
+                </button>
+
+                <button onclick="selectNotificationSound('Classic')">
+                    Classic
+                </button>
+
+                <button onclick="selectNotificationSound('Silent')">
+                    Silent
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

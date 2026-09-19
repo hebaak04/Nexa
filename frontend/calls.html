@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calls - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="calls-container">
+
+        <!-- Header -->
+        <header class="calls-header">
+
+            <h1 class="calls-logo">
+    <span>N</span>exa
+</h1>
+
+           
+
+        </header>
+
+
+        <!-- All / Missed -->
+        <div class="call-filters">
+
+            <button
+                type="button"
+                class="filter active"
+                onclick="selectCallFilter(this)">
+                All
+            </button>
+
+            <button
+                type="button"
+                class="filter"
+                onclick="selectCallFilter(this)">
+                Missed
+            </button>
+
+        </div>
+
+
+        <!-- Search Calls -->
+        <div class="calls-search">
+
+            <span class="calls-search-icon">
+                ⌕
+            </span>
+
+            <input
+                type="text"
+                placeholder="Search calls..."
+            >
+
+        </div>
+
+
+        <!-- Empty Calls -->
+        <main class="empty-calls">
+
+            <div class="empty-call-icon">
+                ☎
+            </div>
+
+            <h2>
+                No calls yet
+            </h2>
+
+            <p>
+                Your recent calls will appear here.
+            </p>
+
+            <button class="start-call">
+                Start a call
+            </button>
+
+        </main>
+
+
+        <!-- Bottom Navigation -->
+        <nav class="calls-bottom-nav">
+
+            <button
+                class="calls-nav-item"
+                onclick="window.location.href='home.html'">
+
+                <span class="calls-nav-icon">
+                    ▰
+                </span>
+
+                <small>
+                    Chats
+                </small>
+
+            </button>
+
+
+            <button class="calls-nav-item active">
+
+                <span class="calls-nav-icon">
+                    ☎
+                </span>
+
+                <small>
+                    Calls
+                </small>
+
+            </button>
+
+
+            <button
+                class="calls-nav-item"
+                onclick="window.location.href='status.html'">
+
+                <span class="calls-nav-icon">
+                    ◉
+                </span>
+
+                <small>
+                    Status
+                </small>
+
+            </button>
+
+
+            <button
+                class="calls-nav-item"
+                onclick="window.location.href='settings.html'">
+
+                <span class="calls-nav-icon">
+                    ⚙
+                </span>
+
+                <small>
+                    Settings
+                </small>
+
+            </button>
+
+        </nav>
+
+    </div>
+
+
+    <script>
+
+        function selectCallFilter(button) {
+
+            document
+                .querySelectorAll('.call-filters .filter')
+                .forEach(function (item) {
+
+                    item.classList.remove('active');
+
+                });
+
+            button.classList.add('active');
+        }
+
+    </script>
+
+</body>
+
+</html>

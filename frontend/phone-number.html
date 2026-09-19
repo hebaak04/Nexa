@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Phone Number - Nexa</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="phone-container">
+
+        <!-- Header -->
+
+        <header class="phone-header">
+
+            <button
+                class="phone-back"
+                onclick="window.location.href='account.html'">
+                ←
+            </button>
+
+            <h1>Phone number</h1>
+
+        </header>
+
+
+        <!-- Content -->
+
+        <main class="phone-content">
+
+            <h2>
+                Your phone number
+            </h2>
+
+            <p class="phone-description">
+                Your phone number is used to identify your Nexa account.
+            </p>
+
+
+            <!-- Current Number -->
+
+            <div class="current-phone">
+
+                <span class="phone-label">
+                    Current phone number
+                </span>
+
+                <span class="phone-value">
+                    +962 7 9123 4567
+                </span>
+
+            </div>
+
+
+            <!-- Change Number -->
+
+            <div class="phone-change-section">
+
+                <label for="newPhone">
+                    New phone number
+                </label>
+
+                <div class="phone-input-row">
+
+                    <select id="countryCode">
+
+                        <option value="+962">
+                            JO +962
+                        </option>
+
+                    </select>
+
+                    <input
+                        type="tel"
+                        id="newPhone"
+                        placeholder="Phone number">
+
+                </div>
+
+            </div>
+
+
+            <p class="phone-note">
+                A verification code will be sent to your new phone number.
+            </p>
+
+
+            <!-- Continue -->
+
+           <button
+    class="phone-continue"
+    onclick="changePhoneNumber()">
+
+    Continue
+
+</button>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
