@@ -20,44 +20,152 @@ function togglePassword() {
 // Sign In
 // =========================
 
+async function signIn() {
 
-function signIn() {
+    const phone =
+        document.getElementById("phone").value.trim();
 
-    const phone = document.getElementById("phone").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const password =
+        document.getElementById("password").value.trim();
+
 
     if (phone === "") {
         alert("Please enter your phone number.");
         return;
     }
+
 
     if (password === "") {
         alert("Please enter your password.");
         return;
     }
 
-    // Go to Home
-    window.location.href = "home.html";
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/login",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    phone: phone,
+                    password: password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Login failed. Please check your phone number and password."
+            );
+
+            return;
+        }
+
+
+        // Save login token
+        localStorage.setItem(
+            "access_token",
+            data.access_token
+        );
+
+
+        // Save user information
+        localStorage.setItem(
+            "user_id",
+            data.user_id
+        );
+
+        localStorage.setItem(
+            "username",
+            data.username
+        );
+
+        localStorage.setItem(
+            "full_name",
+            data.full_name
+        );
+
+
+        alert("Login successful!");
+
+
+        // Go to Home
+        window.location.href = "home.html";
+
+    }
+
+    catch (error) {
+
+        console.error("Login error:", error);
+
+        alert(
+            "Cannot connect to Nexa server. Please make sure the backend is running."
+        );
+
+    }
+
 }
 // =========================
 // Create Account
 // =========================
-
 function continueRegistration() {
+function loadVerificationPhone() {
 
-    const phone = document.getElementById("register-phone").value.trim();
+    const phone =
+        localStorage.getItem("pendingNexaPhone");
+
+    const phoneElement =
+        document.getElementById("verifyNumber");
+
+    if (phone && phoneElement) {
+
+        phoneElement.textContent =
+            "+962 " + phone;
+
+    }
+}
+    const phone =
+        document.getElementById("register-phone").value.trim();
+
 
     if (phone === "") {
+
         alert("Please enter your phone number.");
+
         return;
     }
+
 
     if (phone.length < 9) {
+
         alert("Please enter a valid phone number.");
+
         return;
     }
 
+
+    // Save phone temporarily
+    localStorage.setItem(
+        "pendingNexaPhone",
+        phone
+    );
+
+
+    // Go to verification page
     window.location.href = "verify.html";
+
 }
 // =========================
 // OTP Input
@@ -95,30 +203,32 @@ otpInputs.forEach((input, index) => {
 // Verify OTP
 // =========================
 
-function verifyCode() {
+// =========================
+// Forgot Password Verification
+// =========================
 
-    const otpInputs = document.querySelectorAll(".otp-container input");
+function verifyForgotCode() {
+
+    const otpInputs =
+        document.querySelectorAll(".otp-container input");
 
     let code = "";
 
-    otpInputs.forEach(input => {
+    otpInputs.forEach(function(input) {
         code += input.value;
     });
 
-    // Check if all 6 digits are entered
     if (code.length !== 6) {
         alert("Please enter the 6-digit verification code.");
         return;
     }
 
-    // Check that all characters are numbers
     if (!/^\d{6}$/.test(code)) {
         alert("Please enter numbers only.");
         return;
     }
 
-    // Temporarily move to the next page
-    window.location.href = "account-info.html";
+    window.location.href = "new-password.html";
 }
 // =========================
 // Account Password Toggle
@@ -140,16 +250,31 @@ function toggleAccountPassword(inputId) {
 // Create Account
 // =========================
 
-function createAccount() {
+async function createAccount() {
 
-    const fullName = document.getElementById("full-name").value.trim();
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("account-phone").value.trim();
-    const password = document.getElementById("account-password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
-    const terms = document.getElementById("terms").checked;
+    const fullName =
+        document.getElementById("full-name").value.trim();
 
+    const username =
+        document.getElementById("username").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const phone =
+        document.getElementById("account-phone").value.trim();
+
+    const password =
+        document.getElementById("account-password").value;
+
+    const confirmPassword =
+        document.getElementById("confirm-password").value;
+
+    const terms =
+        document.getElementById("terms").checked;
+
+
+    // Check fields
 
     if (fullName === "") {
         alert("Please enter your full name.");
@@ -176,23 +301,92 @@ function createAccount() {
         return;
     }
 
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters.");
+        return;
+    }
+
     if (password !== confirmPassword) {
         alert("Passwords do not match.");
         return;
     }
 
     if (!terms) {
-        alert("Please agree to the Terms of Service and Privacy Policy.");
+        alert(
+            "Please agree to the Terms of Service and Privacy Policy."
+        );
         return;
     }
 
-window.location.href = "home.html";}// =========================
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/register",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    full_name: fullName,
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    password: password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Registration failed."
+            );
+
+            return;
+        }
+
+
+        alert("Account created successfully!");
+
+
+        // Go to Login
+        window.location.href = "index.html";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Registration error:",
+            error
+        );
+
+        alert(
+            "Cannot connect to Nexa server. Please make sure the backend is running."
+        );
+
+    }
+
+}
+// Forgot Password
+// =========================
+// =========================
 // Forgot Password
 // =========================
 
 function continueForgotPassword() {
 
-    const phone = document.getElementById("forgot-phone").value.trim();
+    const phone =
+        document.getElementById("forgot-phone").value.trim();
 
     if (phone === "") {
         alert("Please enter your phone number.");
@@ -204,36 +398,30 @@ function continueForgotPassword() {
         return;
     }
 
+    // Save phone number temporarily
+    localStorage.setItem(
+        "forgotPasswordPhone",
+        phone
+    );
+
+    // Go to verification page
     window.location.href = "forgot-verify.html";
 }
-// =========================
-// Forgot Password Verification
-// =========================
+function loadForgotPasswordPhone() {
 
-function verifyForgotCode() {
+    const phone =
+        localStorage.getItem("forgotPasswordPhone");
 
-    const otpInputs = document.querySelectorAll(".otp-container input");
+    const phoneElement =
+        document.getElementById("forgotVerifyNumber");
 
-    let code = "";
+    if (phone && phoneElement) {
 
-    otpInputs.forEach(input => {
-        code += input.value;
-    });
+        phoneElement.textContent =
+            "+962 " + phone;
 
-    if (code.length !== 6) {
-        alert("Please enter the 6-digit verification code.");
-        return;
     }
-
-    if (!/^\d{6}$/.test(code)) {
-        alert("Please enter numbers only.");
-        return;
-    }
-
-    window.location.href = "new-password.html";
 }
-
-
 // =========================
 // Save New Password
 // =========================
@@ -405,82 +593,77 @@ function saveProfileChanges() {
 /* =========================
    Load Profile Data
 ========================= */
+async function loadProfileData() {
 
-function loadProfileData() {
+    const token =
+        localStorage.getItem("access_token");
 
-    const name =
-        localStorage.getItem("nexaName");
-
-    const username =
-        localStorage.getItem("nexaUsername");
-
-    const phone =
-        localStorage.getItem("nexaPhone");
-
-    const email =
-        localStorage.getItem("nexaEmail");
-
-    const about =
-        localStorage.getItem("nexaAbout");
-
-
-    if (name) {
-
-        const input =
-            document.getElementById("nameInput");
-
-        if (input) {
-            input.value = name;
-        }
+    if (!token) {
+        window.location.href = "index.html";
+        return;
     }
 
 
-    if (username) {
+    try {
 
-        const input =
-            document.getElementById("usernameInput");
+        const response = await fetch(
+            "http://127.0.0.1:8000/me",
+            {
+                method: "GET",
 
-        if (input) {
-            input.value = username;
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+
+        if (!response.ok) {
+
+            if (response.status === 401) {
+
+                localStorage.removeItem("access_token");
+
+                window.location.href = "index.html";
+
+                return;
+            }
+
+            throw new Error("Failed to load profile");
         }
+
+
+        const user = await response.json();
+
+
+        document.getElementById("nameInput").value =
+            user.full_name || "";
+
+        document.getElementById("usernameInput").value =
+            user.username || "";
+
+        document.getElementById("phoneInput").value =
+            user.phone || "";
+
+        document.getElementById("emailInput").value =
+            user.email || "";
+
+        document.getElementById("aboutInput").value =
+            user.about || "";
+
     }
 
+    catch (error) {
 
-    if (phone) {
+        console.error("Profile loading error:", error);
 
-        const input =
-            document.getElementById("phoneInput");
+        alert(
+            "Cannot load your profile. Please try again."
+        );
 
-        if (input) {
-            input.value = phone;
-        }
-    }
-
-
-    if (email) {
-
-        const input =
-            document.getElementById("emailInput");
-
-        if (input) {
-            input.value = email;
-        }
-    }
-
-
-    if (about) {
-
-        const input =
-            document.getElementById("aboutInput");
-
-        if (input) {
-            input.value = about;
-        }
     }
 
 }
-
-
 /* =========================
    Logout
 ========================= */
@@ -690,14 +873,17 @@ document.addEventListener("DOMContentLoaded", function () {
 /* =========================
    Run When Page Loads
 ========================= */
-
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        loadProfileData();
+        if (document.getElementById("nameInput")) {
+            loadProfileData();
+        }
 
         loadVerificationEmail();
+
+        loadVerificationPhone();
 
     }
 );
@@ -727,6 +913,22 @@ function changePhoneNumber() {
 
     window.location.href =
         "verify.html";
+}
+function loadVerificationPhone() {
+
+    const phone =
+        localStorage.getItem("pendingNexaPhone");
+
+    const phoneElement =
+        document.getElementById("verifyNumber");
+
+    if (phone && phoneElement) {
+
+        phoneElement.textContent =
+            "+962 " + phone;
+
+    }
+
 }
 function changePassword() {
 
@@ -1347,3 +1549,245 @@ function searchChats() {
 
     });
 }
+document.addEventListener("DOMContentLoaded", function() {
+
+    loadVerificationPhone();
+
+});
+async function searchUsers() {
+
+    const searchInput =
+        document.getElementById("contactSearch");
+
+    const resultsContainer =
+        document.getElementById("searchResults");
+
+    const username =
+        searchInput.value.trim();
+
+    if (username === "") {
+        resultsContainer.innerHTML = "";
+        return;
+    }
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/users/search/" +
+            encodeURIComponent(username),
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            resultsContainer.innerHTML =
+                "<p>User not found.</p>";
+            return;
+        }
+
+        resultsContainer.innerHTML = `
+            <div class="search-user-result">
+                <strong>${data.username}</strong>
+                <span>${data.full_name || ""}</span>
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error("User search error:", error);
+
+        resultsContainer.innerHTML =
+            "<p>Cannot connect to Nexa server.</p>";
+    }
+}
+async function saveContact() {
+
+    const usernameInput =
+        document.getElementById("contactUsername");
+
+    const username =
+        usernameInput.value.trim();
+
+    if (username === "") {
+        alert("Please enter a username.");
+        return;
+    }
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    try {
+
+        // First: search for the user
+        const searchResponse = await fetch(
+            "http://127.0.0.1:8000/users/search/" +
+            encodeURIComponent(username),
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const userData = await searchResponse.json();
+
+        if (!searchResponse.ok) {
+            alert(userData.detail || "User not found.");
+            return;
+        }
+
+        // Second: add the user as a contact
+        const contactResponse = await fetch(
+            "http://127.0.0.1:8000/contacts/" +
+            userData.id,
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const contactData =
+            await contactResponse.json();
+
+        if (!contactResponse.ok) {
+            alert(
+                contactData.detail ||
+                "Could not add contact."
+            );
+            return;
+        }
+
+        alert("Contact added successfully!");
+
+        window.location.href = "new-chat.html";
+
+    } catch (error) {
+
+        console.error(
+            "Save contact error:",
+            error
+        );
+
+        alert(
+            "Cannot connect to Nexa server. " +
+            "Please make sure the backend is running."
+        );
+    }
+}
+async function saveContact() {
+
+    const username =
+        document.getElementById("contactUsername").value.trim();
+
+    if (username === "") {
+        alert("Please enter a username.");
+        return;
+    }
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+        alert("Please login first.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    try {
+
+        // Find the user by username
+        const searchResponse = await fetch(
+            "http://127.0.0.1:8000/users/search/" +
+            encodeURIComponent(username),
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const userData = await searchResponse.json();
+
+        if (!searchResponse.ok) {
+            alert(userData.detail || "User not found.");
+            return;
+        }
+
+        // Add user to contacts
+        const contactResponse = await fetch(
+            "http://127.0.0.1:8000/contacts/" +
+            userData.id,
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const contactData =
+            await contactResponse.json();
+
+        if (!contactResponse.ok) {
+            alert(
+                contactData.detail ||
+                "Could not add contact."
+            );
+            return;
+        }
+
+        alert("Contact saved successfully!");
+
+        window.location.href = "new-chat.html";
+
+    } catch (error) {
+
+        console.error("Save contact error:", error);
+
+        alert(
+            "Cannot connect to Nexa server. " +
+            "Please make sure the backend is running."
+        );
+    }
+}
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        if (document.getElementById("nameInput")) {
+            loadProfileData();
+        }
+
+        loadVerificationEmail();
+        loadVerificationPhone();
+
+    }
+);
+document.addEventListener("DOMContentLoaded", function () {
+
+    loadForgotPasswordPhone();
+
+});

@@ -24,7 +24,15 @@ from backend.auth import (
 
 from backend.database import engine, Base, get_db
 from ai.threat_detector import analyze_message
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Create database tables if they don't exist
@@ -701,22 +709,58 @@ def send_message(
     db.add(new_message)
     db.commit()
     db.refresh(new_message)
-
     # Analyze message using AI
     analysis = analyze_message(
         new_message.message_text
     )
 
-    return {
-        "message": "Message sent successfully",
-        "message_id": new_message.id,
-        "conversation_id": new_message.conversation_id,
-        "sender_id": new_message.sender_id,
-        "message_text": new_message.message_text,
-        "sent_at": new_message.sent_at,
-        "threat_analysis": analysis
-    }
+# Save threat analysis only if the message is not safe
+    if analysis["risk_level"] != "safe":
 
+        new_threat = Threat(
+        message_id=new_message.id,
+        threat_type=analysis["threat_type"],
+        risk_level=analysis["risk_level"],
+        confidence=analysis["confidence"]
+    )
+
+        db.add(new_threat)
+        db.commit()
+        db.refresh(new_threat)
+
+    # Create safety alert for the other participants
+    participants = db.query(ConversationParticipant).filter(
+        ConversationParticipant.conversation_id == conversation_id,
+        ConversationParticipant.user_id != current_user.id
+    ).all()
+
+    for participant in participants:
+
+        new_notification = Notification(
+            user_id=participant.user_id,
+            notification_type="threat_alert",
+            title="Safety Alert",
+            notification_text=(
+                f"A potentially unsafe message was detected. "
+                f"Risk level: {analysis['risk_level']}"
+            ),
+            is_read=False
+        )
+
+        db.add(new_notification)
+
+    db.commit()
+
+# THIS MUST BE OUTSIDE THE IF
+    return {
+    "message": "Message sent successfully",
+    "message_id": new_message.id,
+    "conversation_id": new_message.conversation_id,
+    "sender_id": new_message.sender_id,
+    "message_text": new_message.message_text,
+    "sent_at": new_message.sent_at,
+    "threat_analysis": analysis
+}
 
 
 # -------------------------
@@ -1603,4 +1647,37 @@ def analyze_message_threat(
         "threat_type": new_threat.threat_type,
         "risk_level": new_threat.risk_level,
         "confidence": confidence
+    }
+# -------------------------
+# Get My Threats
+# -------------------------
+
+@app.get("/threats")
+def get_my_threats(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    threats = (
+        db.query(Threat)
+        .join(Message, Threat.message_id == Message.id)
+        .filter(Message.sender_id == current_user.id)
+        .order_by(Threat.detected_at.desc())
+        .all()
+    )
+
+    result = []
+
+    for threat in threats:
+        result.append({
+            "threat_id": threat.id,
+            "message_id": threat.message_id,
+            "threat_type": threat.threat_type,
+            "risk_level": threat.risk_level,
+            "confidence": threat.confidence,
+            "detected_at": threat.detected_at
+        })
+
+    return {
+        "threats": result
     }

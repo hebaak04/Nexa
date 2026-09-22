@@ -35,9 +35,10 @@
 
 
                 <input
-                    type="text"
-                    placeholder="First name"
-                >
+    type="text"
+    id="contactFirstName"
+    placeholder="First name"
+>
 
             </div>
 
@@ -47,6 +48,7 @@
 
                 <input
                     type="text"
+                    id="contactLastName"
                     placeholder="Last name"
                 >
 
@@ -59,6 +61,7 @@
 
                 <input
                     type="text"
+                    id="contactUsername"
                     placeholder="Username"
                 >
 
@@ -84,15 +87,23 @@
 
                     <label>Phone</label>
 
-                    <input type="text">
-
+<input
+    type="text"
+    id="contactPhone"
+>
                 </div>
 
             </div>
-
+<button
+    type="button"
+    class="save-contact-button"
+    onclick="saveContact()"
+>
+    Save
         </main>
 
     </div>
+    <script src="script.js"></script>
 
 </body>
 

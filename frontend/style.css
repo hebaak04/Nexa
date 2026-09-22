@@ -7510,4 +7510,19 @@ color: #8E6D5A;}
 
     cursor: pointer;
 }
+.save-contact-button {
+    display: block;
+    width: 136px;
+    height: 40px;
+    margin-top: 35px;
+    margin-left: 54px;
 
+    border: none;
+    border-radius: 10px;
+
+    background-color: #9b7560;
+    color: white;
+
+    font-size: 13px;
+    cursor: pointer;
+}
