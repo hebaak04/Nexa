@@ -343,6 +343,32 @@ def update_my_profile(
 # -------------------------
 
 @app.get("/users/search/{username}")
+# -------------------------
+# Search User By Phone
+# -------------------------
+
+@app.get("/users/search-phone/{phone}")
+def search_user_by_phone(
+    phone: str,
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(
+        User.phone == phone
+    ).first()
+
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    return {
+        "user_id": user.id,
+        "full_name": user.full_name,
+        "phone": user.phone,
+        "profile_picture": user.profile_picture,
+        "about": user.about
+    }
 def search_user(
     username: str,
     db: Session = Depends(get_db)

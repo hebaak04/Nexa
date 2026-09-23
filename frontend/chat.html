@@ -7,7 +7,6 @@
 
     <title>Nexa - Chat</title>
 
-    <!-- نفس ملف الـ CSS الموجود عندك -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -21,12 +20,10 @@
 
         <header class="chat-header">
 
-            <!-- Back -->
             <button class="back-chat" onclick="history.back()">
                 ←
             </button>
 
-            <!-- User -->
             <div class="chat-user">
 
                 <div class="chat-avatar">
@@ -34,15 +31,13 @@
 
                 <div class="chat-user-info">
 
-<h3 id="chatName">User</h3>
+                    <h3 id="chatName">User</h3>
                     <span>Online</span>
 
                 </div>
 
             </div>
 
-
-            <!-- Actions -->
             <div class="chat-actions">
 
                 <button class="chat-action">
@@ -50,7 +45,7 @@
                 </button>
 
                 <button class="chat-action">
-                    ▣
+                    ◉
                 </button>
 
                 <button class="chat-action">
@@ -66,13 +61,11 @@
              Messages
         ========================== -->
 
-        <main class="messages-area">
+        <main class="messages-area" id="messagesArea">
 
             <div class="today-label">
                 Today
             </div>
-
-            <!-- الرسائل رح نضيفها لاحقًا -->
 
         </main>
 
@@ -83,17 +76,15 @@
 
         <footer class="message-area">
 
-            <!-- Plus -->
             <button class="add-button">
                 +
             </button>
 
-
-            <!-- Input -->
             <div class="message-input-container">
 
                 <input
                     type="text"
+                    id="messageInput"
                     placeholder="Type a message..."
                 >
 
@@ -107,24 +98,492 @@
 
             </div>
 
-
-            <!-- Send -->
-            <button class="send-button">
+            <button
+                class="send-button"
+                id="sendButton"
+            >
                 ➤
             </button>
 
         </footer>
 
     </div>
-   <script>
 
-    const chatUser = localStorage.getItem("chatUser");
 
-    if (chatUser) {
-        document.getElementById("chatName").textContent = chatUser;
+    <script>
+
+        // =========================
+        // Chat Information
+        // =========================
+
+        const token =
+            localStorage.getItem("access_token");
+
+        const conversationId =
+            localStorage.getItem("conversationId");
+
+        const chatUser =
+            localStorage.getItem("chatUser");
+
+
+        // =========================
+        // Check Login
+        // =========================
+
+        if (!token) {
+
+            window.location.href = "index.html";
+
+        }
+
+
+        // =========================
+        // Show Chat User Name
+        // =========================
+
+        if (chatUser) {
+
+            document.getElementById("chatName").textContent =
+                chatUser;
+
+        }
+
+
+        // =========================
+        // Load Messages
+        // =========================
+
+// =========================
+// Load Messages
+// =========================
+
+async function loadMessages() {
+
+    if (!conversationId) {
+
+        alert("Conversation not found.");
+        return;
+
     }
 
-</script>
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/conversations/"
+            + conversationId
+            + "/messages",
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization":
+                        "Bearer " + token
+                }
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Could not load messages."
+            );
+
+            return;
+
+        }
+
+
+        const messagesArea =
+            document.getElementById(
+                "messagesArea"
+            );
+
+
+        // Keep Today label
+
+        messagesArea.innerHTML = `
+            <div class="today-label">
+                Today
+            </div>
+        `;
+
+
+        const currentUserId =
+            Number(
+                localStorage.getItem("user_id")
+            );
+
+
+        // =========================
+        // Display Messages
+        // =========================
+
+        for (const message of data.messages) {
+
+            const messageElement =
+                document.createElement("div");
+
+
+            // =========================
+            // Message Direction
+            // =========================
+
+            if (
+                Number(message.sender_id)
+                === currentUserId
+            ) {
+
+                messageElement.className =
+                    "message sent";
+
+            } else {
+
+                messageElement.className =
+                    "message received";
+
+            }
+
+
+            // =========================
+            // Message Content
+            // =========================
+
+            messageElement.innerHTML = `
+                <div class="message-text">
+                    ${message.message_text}
+                </div>
+
+                ${
+                    Number(message.sender_id)
+                    === currentUserId
+
+                    ? `
+                        <div class="message-status">
+                            ✓
+                        </div>
+                      `
+
+                    : ""
+                }
+            `;
+
+
+            messagesArea.appendChild(
+                messageElement
+            );
+
+
+            // =========================
+            // Mark Other User Messages
+            // As Delivered
+            // Then Read
+            // =========================
+
+            if (
+                Number(message.sender_id)
+                !== currentUserId
+            ) {
+
+                await updateMessageStatus(
+                    message.message_id,
+                    "delivered"
+                );
+
+                await updateMessageStatus(
+                    message.message_id,
+                    "read"
+                );
+
+            }
+
+        }
+
+
+        // =========================
+        // Scroll To Bottom
+        // =========================
+
+        messagesArea.scrollTop =
+            messagesArea.scrollHeight;
+
+
+    } catch (error) {
+
+        console.error(
+            "Load messages error:",
+            error
+        );
+
+        alert(
+            "Cannot connect to Nexa server."
+        );
+
+    }
+
+}
+
+        // =========================
+        // Send Message
+        // =========================
+
+        async function sendMessage() {
+
+            const input =
+                document.getElementById(
+                    "messageInput"
+                );
+
+
+            const messageText =
+                input.value.trim();
+
+
+            // =========================
+            // Check Empty Message
+            // =========================
+
+            if (messageText === "") {
+
+                return;
+
+            }
+
+
+            // =========================
+            // Check Conversation
+            // =========================
+
+            if (!conversationId) {
+
+                alert("Conversation not found.");
+                return;
+
+            }
+
+
+            try {
+
+                // =========================
+                // Send Message To Backend
+                // =========================
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/conversations/"
+                    + conversationId
+                    + "/messages",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+                        },
+
+                        body: JSON.stringify({
+
+                            message_text:
+                                messageText
+
+                        })
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                // =========================
+                // Check Response
+                // =========================
+
+                if (!response.ok) {
+
+                    alert(
+                        data.detail ||
+                        "Could not send message."
+                    );
+
+                    return;
+
+                }
+
+
+                // =========================
+                // Clear Input
+                // =========================
+
+                input.value = "";
+
+
+                // =========================
+                // Reload Messages
+                // =========================
+
+                await loadMessages();
+
+
+                // =========================
+                // Set Message Status = Sent
+                // =========================
+
+                await updateMessageStatus(
+                    data.message_id,
+                    "sent"
+                );
+
+
+                // =========================
+                // Show AI Result In Console
+                // =========================
+
+                console.log(
+                    "Threat Analysis:",
+                    data.threat_analysis
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Send message error:",
+                    error
+                );
+
+                alert(
+                    "Cannot connect to Nexa server."
+                );
+
+            }
+
+        }
+
+
+        // =========================
+        // Update Message Status
+        // =========================
+
+        async function updateMessageStatus(
+            messageId,
+            status
+        ) {
+
+            try {
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/messages/"
+                    + messageId
+                    + "/status",
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+                        },
+
+                        body: JSON.stringify({
+                            status: status
+                        })
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Status update failed:",
+                        data
+                    );
+
+                    return;
+
+                }
+
+
+                console.log(
+                    "Message status:",
+                    data.status
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Update message status error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =========================
+        // Send Button
+        // =========================
+
+        document
+            .getElementById("sendButton")
+            .addEventListener(
+                "click",
+                sendMessage
+            );
+
+
+        // =========================
+        // Enter Key
+        // =========================
+
+        document
+            .getElementById("messageInput")
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (event.key === "Enter") {
+
+                        event.preventDefault();
+
+                        sendMessage();
+
+                    }
+
+                }
+            );
+
+
+        // =========================
+        // Load Messages On Page Open
+        // =========================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadMessages();
+
+            }
+        );
+
+    </script>
 
 </body>
+
 </html>

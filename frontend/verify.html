@@ -79,7 +79,31 @@
     </div>
 
     <script src="script.js"></script>
+<script>
+function verifyCode() {
 
+    const otpInputs =
+        document.querySelectorAll(".otp-container input");
+
+    let code = "";
+
+    otpInputs.forEach(function(input) {
+        code += input.value;
+    });
+
+    if (code.length !== 6) {
+        alert("Please enter the 6-digit verification code.");
+        return;
+    }
+
+    if (!/^\d{6}$/.test(code)) {
+        alert("Please enter numbers only.");
+        return;
+    }
+
+    window.location.href = "account-info.html";
+}
+</script>
 </body>
 
 </html>

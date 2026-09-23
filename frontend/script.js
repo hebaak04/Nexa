@@ -1614,16 +1614,16 @@ async function searchUsers() {
             "<p>Cannot connect to Nexa server.</p>";
     }
 }
-async function saveContact() {
+// =========================
+// Load My Contacts
+// =========================
 
-    const usernameInput =
-        document.getElementById("contactUsername");
+async function loadContacts() {
 
-    const username =
-        usernameInput.value.trim();
+    const resultsContainer =
+        document.getElementById("searchResults");
 
-    if (username === "") {
-        alert("Please enter a username.");
+    if (!resultsContainer) {
         return;
     }
 
@@ -1637,10 +1637,8 @@ async function saveContact() {
 
     try {
 
-        // First: search for the user
-        const searchResponse = await fetch(
-            "http://127.0.0.1:8000/users/search/" +
-            encodeURIComponent(username),
+        const response = await fetch(
+            "http://127.0.0.1:8000/contacts",
             {
                 method: "GET",
                 headers: {
@@ -1649,62 +1647,167 @@ async function saveContact() {
             }
         );
 
-        const userData = await searchResponse.json();
+        const data = await response.json();
 
-        if (!searchResponse.ok) {
-            alert(userData.detail || "User not found.");
+        if (!response.ok) {
+
+            resultsContainer.innerHTML =
+                "<p>Could not load contacts.</p>";
+
             return;
         }
 
-        // Second: add the user as a contact
-        const contactResponse = await fetch(
-            "http://127.0.0.1:8000/contacts/" +
-            userData.id,
-            {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer " + token
+        const contacts = data.contacts || [];
+
+        if (contacts.length === 0) {
+
+            resultsContainer.innerHTML =
+                "<p>No contacts yet.</p>";
+
+            return;
+        }
+
+        resultsContainer.innerHTML = "";
+
+        contacts.forEach(function(contact) {
+
+            const contactElement =
+                document.createElement("div");
+
+            contactElement.className =
+                "search-user-result";
+
+            contactElement.innerHTML = `
+    <strong>${contact.full_name || "User"}</strong>
+`;
+
+            // Make contact clickable
+            contactElement.style.cursor = "pointer";
+
+            contactElement.addEventListener(
+                "click",
+                async function() {
+
+                    try {
+
+                        const conversationResponse =
+                            await fetch(
+                                "http://127.0.0.1:8000/conversations",
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+                                        "Authorization":
+                                            "Bearer " + token
+                                    },
+                                    body: JSON.stringify({
+                                        user_id: contact.user_id
+                                    })
+                                }
+                            );
+
+                        const conversationData =
+                            await conversationResponse.json();
+
+                        if (!conversationResponse.ok) {
+
+                            alert(
+                                conversationData.detail ||
+                                "Could not open chat."
+                            );
+
+                            return;
+                        }
+
+                        // Save chat information
+                        localStorage.setItem(
+                             "chatUser",
+                             contact.full_name || "User"
+                            );
+
+                        localStorage.setItem(
+                            "chatUserId",
+                            contact.user_id
+                        );
+
+                        localStorage.setItem(
+                            "conversationId",
+                            conversationData.conversation_id
+                        );
+
+                        // Open chat
+                        window.location.href =
+                            "chat.html";
+
+                    } catch (error) {
+
+                        console.error(
+                            "Open chat error:",
+                            error
+                        );
+
+                        alert(
+                            "Cannot connect to Nexa server."
+                        );
+                    }
+
                 }
-            }
-        );
-
-        const contactData =
-            await contactResponse.json();
-
-        if (!contactResponse.ok) {
-            alert(
-                contactData.detail ||
-                "Could not add contact."
             );
-            return;
-        }
 
-        alert("Contact added successfully!");
+            resultsContainer.appendChild(
+                contactElement
+            );
 
-        window.location.href = "new-chat.html";
+        });
 
     } catch (error) {
 
         console.error(
-            "Save contact error:",
+            "Load contacts error:",
             error
         );
 
-        alert(
-            "Cannot connect to Nexa server. " +
-            "Please make sure the backend is running."
-        );
+        resultsContainer.innerHTML =
+            "<p>Cannot connect to Nexa server.</p>";
     }
 }
+// =========================
+// Save New Contact
+// =========================
+
 async function saveContact() {
 
-    const username =
-        document.getElementById("contactUsername").value.trim();
+    const firstName =
+        document.getElementById("contactFirstName").value.trim();
 
-    if (username === "") {
-        alert("Please enter a username.");
+    const lastName =
+        document.getElementById("contactLastName").value.trim();
+
+    const phone =
+        document.getElementById("contactPhone").value.trim();
+
+
+    // Check first name
+    if (firstName === "") {
+        alert("Please enter the first name.");
         return;
     }
+
+
+    // Check last name
+    if (lastName === "") {
+        alert("Please enter the last name.");
+        return;
+    }
+
+
+    // Check phone
+    if (phone === "") {
+        alert("Please enter the phone number.");
+        return;
+    }
+
 
     const token =
         localStorage.getItem("access_token");
@@ -1715,12 +1818,13 @@ async function saveContact() {
         return;
     }
 
+
     try {
 
-        // Find the user by username
+        // Search user by phone
         const searchResponse = await fetch(
-            "http://127.0.0.1:8000/users/search/" +
-            encodeURIComponent(username),
+            "http://127.0.0.1:8000/users/search-phone/" +
+            encodeURIComponent(phone),
             {
                 method: "GET",
                 headers: {
@@ -1729,17 +1833,26 @@ async function saveContact() {
             }
         );
 
-        const userData = await searchResponse.json();
+
+        const userData =
+            await searchResponse.json();
+
 
         if (!searchResponse.ok) {
-            alert(userData.detail || "User not found.");
+
+            alert(
+                userData.detail ||
+                "No user found with this phone number."
+            );
+
             return;
         }
+
 
         // Add user to contacts
         const contactResponse = await fetch(
             "http://127.0.0.1:8000/contacts/" +
-            userData.id,
+            userData.user_id,
             {
                 method: "POST",
                 headers: {
@@ -1748,24 +1861,35 @@ async function saveContact() {
             }
         );
 
+
         const contactData =
             await contactResponse.json();
 
+
         if (!contactResponse.ok) {
+
             alert(
                 contactData.detail ||
                 "Could not add contact."
             );
+
             return;
         }
 
-        alert("Contact saved successfully!");
 
+        alert("Contact added successfully!");
+
+
+        // Go back to New Chat
         window.location.href = "new-chat.html";
+
 
     } catch (error) {
 
-        console.error("Save contact error:", error);
+        console.error(
+            "Save contact error:",
+            error
+        );
 
         alert(
             "Cannot connect to Nexa server. " +
@@ -1789,5 +1913,10 @@ document.addEventListener(
 document.addEventListener("DOMContentLoaded", function () {
 
     loadForgotPasswordPhone();
+
+});
+document.addEventListener("DOMContentLoaded", function () {
+
+    loadContacts();
 
 });

@@ -7526,3 +7526,13 @@ color: #8E6D5A;}
     font-size: 13px;
     cursor: pointer;
 }
+/* =========================
+   MESSAGE STATUS
+========================= */
+
+.message-status {
+    font-size: 12px;
+    margin-left: 5px;
+    text-align: right;
+    opacity: 0.8;
+}
